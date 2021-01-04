@@ -1,5 +1,9 @@
 // Functions 
-import {createColumn, createRow} from './functions.js';
+import {
+    createColumn,
+    createRow,
+    sortByHeader
+} from './functions.js';
 
 // Main DOM Selectors 
 
@@ -11,5 +15,16 @@ const btnRow = document.querySelector('.btn-row');
 btnColumn.addEventListener('click', createColumn);
 
 btnRow.addEventListener('click', createRow);
+
+document.addEventListener('click', sortByHeader);
+
+// Function Playground 
+
+
+
+
+
+
+
 
 

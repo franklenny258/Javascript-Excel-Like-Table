@@ -6,14 +6,14 @@ function createColumn() {
     th.innerHTML = columnName;
     column.append(th);
 
-    if (document.querySelector('.rows')) { // To create rows below a new column
-       const rows = document.querySelectorAll('.rows');
-       rows.forEach(row => {
-           const td = document.createElement('td');
-           td.classList = 'row';
-           row.append(td);
-       });
-       
+    if (document.querySelector('.rows')) {
+        const rows = document.querySelectorAll('.rows');
+        rows.forEach(row => {
+            const td = document.createElement('td');
+            td.classList = 'row';
+            row.append(td);
+        });
+
     }
 }
 
@@ -31,4 +31,44 @@ function createRow() {
     });
 }
 
-export {createColumn, createRow};
+
+function sortByHeader(e) {
+    const column = e.target;
+    const table = column.closest('table');
+
+    if (column.tagName == 'TH' && column.classList.contains('column')) {
+        const columnIndex = column.cellIndex;
+
+        function sortTable(selectedColumn) {
+            let i, x, y;
+            let shouldSwitch = null;
+            let switching = true;
+
+            while (switching) {
+                switching = false;
+                const rows = table.rows;
+
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[selectedColumn];
+                    y = rows[i + 1].getElementsByTagName("TD")[selectedColumn];
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                }
+            }
+        }
+        sortTable(columnIndex);
+    }
+}
+
+export {
+    createColumn,
+    createRow,
+    sortByHeader
+};
