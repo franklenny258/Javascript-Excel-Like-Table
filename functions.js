@@ -40,9 +40,11 @@ function sortByHeader(e) {
         const columnIndex = column.cellIndex;
 
         function sortTable(selectedColumn) {
-            let i, x, y;
+            let i, cellIndex, cells;
             let shouldSwitch = null;
             let switching = true;
+            let switchcount = 0;
+            let dir = 'asc';
 
             while (switching) {
                 switching = false;
@@ -50,16 +52,31 @@ function sortByHeader(e) {
 
                 for (i = 1; i < (rows.length - 1); i++) {
                     shouldSwitch = false;
-                    x = rows[i].getElementsByTagName("TD")[selectedColumn];
-                    y = rows[i + 1].getElementsByTagName("TD")[selectedColumn];
-                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                        shouldSwitch = true;
-                        break;
+
+                    cellIndex = rows[i].getElementsByTagName("TD")[selectedColumn];
+                    cells = rows[i + 1].getElementsByTagName("TD")[selectedColumn];
+
+                    if (dir == "asc") {
+                        if (cellIndex.innerHTML.toLowerCase() > cells.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (cellIndex.innerHTML.toLowerCase() < cells.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
                     }
                 }
                 if (shouldSwitch) {
                     rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
                     switching = true;
+                    switchcount++;
+                } else {
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
                 }
             }
         }
