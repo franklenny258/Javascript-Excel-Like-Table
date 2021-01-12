@@ -3,7 +3,7 @@ import {
     createColumn,
     createRow,
     sortByHeader
-} from './functions.js';
+} from './functions';
 
 // Main DOM Selectors 
 
